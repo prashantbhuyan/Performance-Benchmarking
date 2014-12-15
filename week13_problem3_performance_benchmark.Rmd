@@ -1,0 +1,36 @@
+---
+title: "benchmark"
+author: "Prashant B. Bhuyan"
+date: "December 15, 2014"
+output: html_document
+---
+
+Benchmark the performance of two different functions- one using base R library and the other using the dplyr library.
+
+The function is to get the average flight departure delay.  Then publish to rpubs.com. 
+
+```{r}
+
+library(DBI)
+library(RPostgreSQL)
+library(dplyr)
+library(reshape2)
+library(microbenchmark)
+library(nycflights13)
+flt_data <- flights
+
+# compare dplyr to base R apply()
+# clearly dplyr works faster than the base R function.
+flt_data <- flights
+# compare dplyr to base R apply()
+# clearly dplyr works faster than the base R function.
+measure_perf <- microbenchmark(
+  apply(flt_data[4],2,mean,na.rm = TRUE),
+  summarize(flt_data,avg_delay = mean(dep_delay, na.rm = TRUE))
+  )
+
+measure_perf
+
+```
+
+The results show clearly that dplyr has superior performance as compared to the base R apply() function.  
